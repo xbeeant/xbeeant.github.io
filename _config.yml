@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
+title: Xbeeant's Blog
+subtitle: '随记，随摘，随想'
 description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+keywords: '随记，随摘，随想'
+author: Xbeeant
+language: zh-CN
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://xbeeant.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -103,3 +103,9 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+search:
+  path: search.json
+  field: post
+  content: true
+  format: striptags
