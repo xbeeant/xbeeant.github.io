@@ -6,6 +6,7 @@ sharetitle: "202605312119"
 ---
 定时任务的配置中很多在官方文档找不到的信息，从github的讨论或issue中摘取记录一些解决办法，办法待考证，仅为提供参考，以备不时之需
 
+# 配置1
 ```
 
 # 如没有特殊需要不用更改
@@ -68,4 +69,39 @@ MEMORY_USER_MEMORY_EMBEDDING_PREFERRED_MODELS='Qwen/Qwen3-Embedding-0.6B'
 # # ============ Webhook（QStash 回调地址，必须公网可达）============
 MEMORY_USER_MEMORY_WEBHOOK_BASE_URL='https://lobe.xxxxxx.com'
 
+```
+
+# 配置2
+**对于自部署用户，目前有以下选项**：
+
+1. **接入 QStash（目前唯一的生产可用方案）**：注册 [Upstash QStash](https://upstash.com/)（有免费额度），然后配置以下环境变量 [[8]](https://github.com/lobehub/lobehub/blob/2eb7ee824f99abae72ccd1af3dabf3b4f49737c0/src/libs/qstash/index.ts)：
+    
+    - `QSTASH_TOKEN`
+    - `QSTASH_CURRENT_SIGNING_KEY`
+    - `QSTASH_NEXT_SIGNING_KEY`
+    - `AGENT_RUNTIME_MODE=queue`
+    - `APP_URL`（你的 LobeHub 实例地址）
+2. **等待官方支持独立的自托管调度方案**：目前没有公开的时间线。
+
+# 配置3 据说是有效的方式
+
+```
+ cron-dispatcher:
+    image: alpine/curl:latest
+    container_name: lobe-cron-dispatcher
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - CRON_SCHEDULE=0,30 * * * *
+      - TARGET_URL=http://lobe:${LOBE_PORT:-3210}/api/workflows/task/schedule-dispatch
+      - DRY_RUN=false
+    entrypoint: sh -c
+    command:
+      - >
+        echo "$$CRON_SCHEDULE curl -fsSL -X POST -H 'Content-Type: application/json' -d \"{\\\"dryRun\\\":$$DRY_RUN}\" $$TARGET_URL" > /var/spool/cron/crontabs/root &&
+        crond -f -L /dev/stdout
+    networks:
+      - lobe-network
+        
 ```
