@@ -1,0 +1,9 @@
+remote_theme: sighingnow/jekyll-gitbook
+title: Xbeeant's Homepage
+description: 随笔、随记、随摘、随想
+
+syntax_highlighter_style: pastie
+toc:
+    enabled: true
+    h_min: 2
+    h_max: 3
