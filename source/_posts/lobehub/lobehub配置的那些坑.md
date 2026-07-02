@@ -1,4 +1,9 @@
-# 定时任务中redis异常问题
+---
+share: "true"
+sharepath: doc
+title: 定时任务中redis异常问题
+sharetitle: "定时任务中redis异常问题"
+---
 
 `[Agent Runtime Redis] Redis connection error: ReplyError: NOAUTH Authentication required.` 
 
